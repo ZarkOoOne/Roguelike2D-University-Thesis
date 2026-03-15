@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    public EnemyScriptableObjects enemyData;
     Transform player;
-    public float moveSpeed;
     void Start()
     {
         player = FindObjectOfType<PlayerMovement>().transform; //Find the player transform to move towards
@@ -13,6 +13,6 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime); //Move towards the player at a certain speed
+        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, enemyData.moveSpeed * Time.deltaTime); //Move towards the player at a certain speed
     }
 }
