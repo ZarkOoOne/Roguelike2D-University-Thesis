@@ -16,7 +16,9 @@ public class WeaponController : MonoBehaviour
 
     protected virtual void Start()
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         pm = FindObjectOfType<PlayerMovement>();
+#pragma warning restore CS0618 // Type or member is obsolete
         currentCooldown = weaponData.cooldownDuration; //At the start set the current cooldown to be the cooldown duration
     }
 

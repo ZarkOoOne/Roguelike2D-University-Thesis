@@ -8,7 +8,9 @@ public class EnemyMovement : MonoBehaviour
     Transform player;
     void Start()
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         player = FindObjectOfType<PlayerMovement>().transform; //Find the player transform to move towards
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 
     void Update()
