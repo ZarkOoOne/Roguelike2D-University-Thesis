@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic; 
 using UnityEngine;
+using UnityEngine.VFX;
 
 /// <summary>
 /// Base script for all projectile weapon behaviours [To be placed on a prefab of a weapon that is a projectile]
@@ -11,9 +12,24 @@ public class ProjectileWeaponBehaviour : MonoBehaviour
 
     protected Vector3 direction;
     public float destroyAfterSeconds;
+
+    //Current stats
+    protected float currnetDamage;
+    protected float currentSpeed;
+    protected float currentCooldownDuration;
+    protected int currentPierce;
+
+    void Awake()
+    {
+        currnetDamage = weaponData.Damage;
+        currentSpeed = weaponData.Speed;
+        currentCooldownDuration = weaponData.CooldownDuration;
+        currentPierce = weaponData.Pierce;
+    }
+
     protected virtual void Start()
     {
-        Destroy(gameObject, destroyAfterSeconds); //Destroy the projectile after a certain amount of seconds to prevent cluttering the scene
+        Destroy(gameObject, destroyAfterSeconds);
     }
 
     public void DirectionChecker(Vector3 dir)
@@ -69,5 +85,26 @@ public class ProjectileWeaponBehaviour : MonoBehaviour
         transform.localScale = scale;
         transform.rotation = Quaternion.Euler(rotation);
 
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D col)
+    {
+
+        //Refference the script from the collided collider and deal damage using TakeDamage()
+        if(col.CompareTag("Enemy"))
+        {
+            EnemyStats enemy = col.GetComponent<EnemyStats>();
+            enemy.TakeDamage(currnetDamage);
+            ReducePierce();
+        }
+    }
+
+    void ReducePierce()
+    {
+        currentPierce --;
+        if(currentPierce <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
